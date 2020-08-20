@@ -1,29 +1,27 @@
 ---
-title: "Rapport final du cours SQL"
-author: "SALOMON HAZAN, CLARA LUCAS, TRAN NAM MAI"
-date: "May 9, 2020"
+title: "Exploratory data analysis using SQL and R"
 output:
   html_notebook: 
     toc: true
     toc_float: true
 ---
-L'objectif de ce rapport est de visualiser les données exportées à partir des requêtes SQL issues du projet transverse - Partie SQL. Ce rapport comprend 3 parties principales :
+The objective of this report is to visualize the data exported from the SQL queries. This report consists of 3 main parts:
  
-    I. Etude globale
-    1. Répartition client
-    2. Comportement du chiffre d'affaires par client en N-2 (2016) et N-1 (2017)
+     I. Global study
+     1. Customer breakdown
+     2. Behavior of turnover per customer in N-2 (2016) and N-1 (2017)
 
-    II. Etude par magasin
-    1.  Evolution en terme du nombre des clients actifs et chiffre d'affaires par magasin
-    2.  Distance entre domicile client et magasin
+     II. Study by store
+     1. Evolution in terms of the number of active customers and turnover per store
+     2. Distance between customer's home and store
 
-    III. Etude par univers
-    1.   Evolution du chiffre d'affaires par univers en N-2 (2016) et N-1 (2017)
-    2.   Top 5 des familles les plus rentables par univers
+     III. Study by type of product
+     1. Evolution of turnover by type of product in N-2 (2016) and N-1 (2017)
+     2. Top 5 of the most profitable families by universe
 
-Dans chaque partie, nous fournissons la requête SQL ainsi que les données exportées à partir de ces requêtes et les visualisations qui sont élaborées dans R.
+In each part, we provide the SQL query as well as the data exported from these queries and the visualizations that are developed in R.
 
-Attention : N’exécuter ce Rmarkdow que partie par partie, car les parties contenant des requêtes SQL renverront des erreurs. Si on exécute une partie une seconde fois, il y aura une erreur (relancer l’importation des données au préalable)
+Warning: Only run this Rmarkdow part by part, as parts containing SQL queries will return errors. If we run a part a second time, there will be an error (restart the data import beforehand)
 
 ```{r setup, include=FALSE}
 rm(list=ls())
@@ -52,9 +50,9 @@ X3a <- read_delim("Devoir a envoyer/Data/New dataset/3a.CSV",
 X3b <- read_delim("Devoir a envoyer/Data/New dataset/3b.CSV", 
     "|", escape_double = FALSE, trim_ws = TRUE)
 ```
-# I. Etude globale
-## 1. Répartition Adhérents / VIP 
-### Requête SQL
+# I. Global study
+## 1. Membership / VIP breakdown
+### SQL query
 ```{sql}
 select factor, vip, new_n2, new_n1, adherent, churner
 from 
@@ -95,8 +93,8 @@ join
 	and vip=0) as temp4
 using(factor);
 ```
-### Résultat de la requête SQL
-- Répartition des clients par type
+### Result of the SQL query
+- Breakdown of customers by type
 
 ```{r echo=FALSE}
 head(X1a)
@@ -139,10 +137,10 @@ ggplot(X1a, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=as.factor(factor))) +
   theme(plot.title = element_text(hjust = 0.5)) + 
   guides(fill = guide_legend("Type de client"))
 ```
-> La proportion de churner est la plus importante (34,79%) suivie du nombre d'adhérents (22,53%), des nouveaux adhérents 2016 (15,45%), et des nouveaux adhérents 2017 (14,18%). La proportion de VIP n'est que de 13,6%.
+> The proportion of churner is the highest (34.79%) followed by the number of members (22.53%), new members 2016 (15.45%), and new members 2017 (14.18%) . The proportion of VIPs is only 13.6%.
 
-## 2. Comportement du CA GLOBAL par client N-2 vs N-1
-### Requête SQL
+## 2. Performance of turnover per customer N-2 vs N-1
+### SQL query
 ```{sql}
 select *
 from(
@@ -169,7 +167,7 @@ join
 group by 1, 2) as temp2
 using(idclient_new);
 ```
-### Données de la requête SQL
+### Result of SQL query data
 ```{r}
 head(X1b)
 ```
@@ -239,11 +237,11 @@ summary(X1bnew1bis$tic_totalttc)
 summary(X1bnew2bis$tic_totalttc)
 ```
 
-> Dans le premier graphique le comportement des clients en terme de CA  est difficile à visualiser du fait des valeurs extrêmes (outliers).
-Le deuxième graphique permet de mieux mettre en évidence la médiane du CA qui passe de 199 euros à 246 euros (le CA au-dessous duquel se situe 50 % des achats clients). La moyenne des achats après exclusion des outliers passe de 265 euros à 316 euros.
+> In the first graph, customer behavior in terms of turnover is difficult to visualize because of the extreme values (outliers).
+The second graph makes it possible to better highlight the median turnover which goes from 199 euros to 246 euros (the turnover below which is 50% of customer purchases). The average of purchases after excluding outliers goes from 265 euros to 316 euros.
 
-## 3. Répartition par âge et par sexe
-> Nous avons décidé de limiter la population à représenter afin d'avoir une meilleure distribution et une meilleure visibilité de la variable âge. Les clients étudiés étant des adhérents, nous avons exclu les moins de 18 ans et les plus de 100 ans.
+## 3. Breakdown by age and sex
+> We decided to limit the population to be represented in order to have a better distribution and better visibility of the age variable. As the clients studied are members, we have excluded those under 18 and over 100.
 
 ### Requête SQL
 ```{sql}
