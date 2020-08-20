@@ -376,7 +376,7 @@ join
  group by codeunivers) as temp2
 using(codeunivers);
 
--- b. Afficher le top 5 des familles les plus rentable par univers 
+-- b. Top 5 des familles les plus rentable par univers 
 select *
 from
 (select codeunivers, codesousfamille, rentab, 
