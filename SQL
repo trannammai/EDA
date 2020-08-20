@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---                          0. Importation des données                      --
+--                          0. Importing Data                               --
 ------------------------------------------------------------------------------
 
 -- Client
@@ -104,7 +104,7 @@ CREATE TABLE ref_article
 COPY ref_article FROM 'C:\DATA_Projet_R\REF_ARTICLE.CSV' CSV HEADER delimiter '|' null '';
 
 ------------------------------------------------------------------------------
---                          1. Etude Global                                 --
+--                          1. Analysis of client and revenue               --
 ------------------------------------------------------------------------------
 
 -- a. Répartition client
@@ -191,7 +191,7 @@ from (select gender, age, count(age_sex) as num
 group by gender, age, num) to 'C:\DATA_Projet_R\1c.CSV' csv header delimiter '|' null ''; 
 
 ------------------------------------------------------------------------------
---                          2. Etude par magasin                            --
+--                          2. Analysis of selling points                   --
 ------------------------------------------------------------------------------
 
 -- a. Résultat par magasin
@@ -357,7 +357,7 @@ using(magasin)) as temp5
 group by 8, 1, 2, 3, 4, 5, 6, 7;
 
 ------------------------------------------------------------------------------
---                          3. Etude par univers                            --
+--                          3. Analysis of type of product                  --
 ------------------------------------------------------------------------------
 
 -- a. N-2 / N-1 évolution du CA par univers
