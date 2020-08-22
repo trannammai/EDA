@@ -26,7 +26,7 @@ ALTER TABLE client ADD PRIMARY KEY (IDCLIENT_NEW);
 
 -- Entete_Ticket
 DROP TABLE IF EXISTS entete_ticket;
-CREATE TABLE entete_ticket 
+CREATE TABLE entete_ticket
 (
 	IDTICKET bigint primary key,
 	TIC_DATE timestamp,
